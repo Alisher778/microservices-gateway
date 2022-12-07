@@ -1,8 +1,8 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware, fixRequestBody } = require('http-proxy-middleware');
 
 const setupProxies = (app, routes) => {
   routes.forEach(r => {
-    app.use(r.url, createProxyMiddleware(r.proxy));
+    app.use(r.url, createProxyMiddleware({ ...r.proxy, onProxyReq: fixRequestBody }));
   })
 }
 
